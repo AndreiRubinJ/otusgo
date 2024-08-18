@@ -19,6 +19,7 @@ func init() {
 	staff, err = reader.ReadJSON(getFilePath(fileName))
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
 	printer.PrintStaff(staff)
 }
