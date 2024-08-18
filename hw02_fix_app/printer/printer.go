@@ -3,7 +3,7 @@ package printer
 import (
 	"fmt"
 
-	"hw02_fix_app/employee"
+	"github.com/fixme_my_friend/hw02_fix_app/employee"
 )
 
 func PrintStaff(staff []employee.Employee) {

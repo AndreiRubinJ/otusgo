@@ -6,9 +6,9 @@ import (
 	"runtime"
 	"strings"
 
-	"hw02_fix_app/employee"
-	"hw02_fix_app/printer"
-	"hw02_fix_app/reader"
+	"github.com/fixme_my_friend/hw02_fix_app/employee"
+	"github.com/fixme_my_friend/hw02_fix_app/printer"
+	"github.com/fixme_my_friend/hw02_fix_app/reader"
 )
 
 const fileName = "data.json"
