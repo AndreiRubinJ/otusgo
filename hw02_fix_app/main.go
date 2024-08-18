@@ -6,9 +6,9 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/fixme_my_friend/hw02_fix_app/employee"
-	"github.com/fixme_my_friend/hw02_fix_app/printer"
-	"github.com/fixme_my_friend/hw02_fix_app/reader"
+	"hw02_fix_app/employee"
+	"hw02_fix_app/printer"
+	"hw02_fix_app/reader"
 )
 
 const fileName = "data.json"
@@ -39,11 +39,9 @@ func getFilePath(fileNameDefault string) string {
 
 func getPathByDefault(fileName string) string {
 	_, filename, _, ok := runtime.Caller(0)
-
 	if !ok {
 		fmt.Println("Error get the path to the source file")
 	}
-
 	directory := filepath.Dir(filename)
 	fmt.Println(directory)
 	return filepath.Join(directory, fileName)
