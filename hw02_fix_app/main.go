@@ -13,7 +13,7 @@ import (
 
 const fileName = "data.json"
 
-func init() {
+func main() {
 	var err error
 	var staff []employee.Employee
 	staff, err = reader.ReadJSON(getFilePath(fileName))
@@ -47,8 +47,4 @@ func getPathByDefault(fileName string) string {
 	directory := filepath.Dir(filename)
 	fmt.Println(directory)
 	return filepath.Join(directory, fileName)
-}
-
-func main() {
-	fmt.Print("Done ...")
 }
