@@ -10,7 +10,6 @@ import (
 )
 
 func ReadJSON(filePath string) ([]employee.Employee, error) {
-
 	f, err := os.Open(filePath)
 	if err != nil {
 		fmt.Printf("Error: %v", err)
