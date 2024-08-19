@@ -6,7 +6,7 @@ import (
 	"io"
 	"os"
 
-	"hw02_fix_app/employee"
+	"github.com/AndreiRubinJ/otusgo/hw02_fix_app/employee"
 )
 
 func ReadJSON(filePath string) ([]employee.Employee, error) {
@@ -17,7 +17,6 @@ func ReadJSON(filePath string) ([]employee.Employee, error) {
 	}
 
 	bytes, err := io.ReadAll(file)
-
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 		return nil, err

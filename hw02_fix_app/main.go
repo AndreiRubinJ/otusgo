@@ -6,9 +6,9 @@ import (
 	"runtime"
 	"strings"
 
-	"hw02_fix_app/employee"
-	"hw02_fix_app/printer"
-	"hw02_fix_app/reader"
+	"github.com/AndreiRubinJ/otusgo/hw02_fix_app/employee"
+	"github.com/AndreiRubinJ/otusgo/hw02_fix_app/printer"
+	"github.com/AndreiRubinJ/otusgo/hw02_fix_app/reader"
 )
 
 const fileName = "data.json"
@@ -43,6 +43,5 @@ func getPathByDefault(fileName string) string {
 		fmt.Println("Error get the path to the source file")
 	}
 	directory := filepath.Dir(filename)
-	fmt.Println(directory)
 	return filepath.Join(directory, fileName)
 }

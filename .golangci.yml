@@ -4,21 +4,26 @@ run:
     - bench
     - !bench
 
+
 linters-settings:
-  shadow:
-    strict: true
+  gofumpt:
+    extra-rules: false
 
 issues:
   exclude-rules:
+    - linters:
+        - gofumpt
+      text: "File is not `gofumpt`-ed"
     - path: _test\.go
       linters:
         - errcheck
         - dupl
         - gocyclo
         - gosec
+        - gofumpt
 
 linters:
-  disable-all: true
+  disable-all: false
   enable:
     - asciicheck
     - bodyclose
@@ -36,6 +41,7 @@ linters:
     - gocyclo
     - godot
     - gofmt
+    - gofumpt
     - goheader
     - goprintffuncname
     - gosec
