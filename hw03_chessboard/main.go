@@ -22,17 +22,11 @@ const (
 	maxRetryCount = 3
 )
 
-func init() {
-	start()
-}
-
 func printBoard(height int, length int) {
 	printHeader(length)
 	for i := 1; i <= height; i++ {
-		if i <= height {
-			printRowBoundary(length)
-			printRow(i, length)
-		}
+		printRowBoundary(length)
+		printRow(i, length)
 	}
 	printFooter(height, length)
 }
@@ -116,10 +110,11 @@ func getBoardParam(param *int, paramType string) {
 func start() {
 	getBoardParam(&height, "height")
 	getBoardParam(&length, "length")
-}
-
-func main() {
 	if height > 0 && length > 0 {
 		printBoard(height, length)
 	}
+}
+
+func main() {
+	start()
 }
