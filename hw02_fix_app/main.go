@@ -1,29 +1,47 @@
-package init
+package main
 
 import (
-	"github.com/fixme_my_friend/hw02_fix_app/printer"
-	"github.com/fixme_my_friend/hw02_fix_app/reader"
-	"github.com/fixme_my_friend/hw02_fix_app/types"
 	"fmt"
+	"path/filepath"
+	"runtime"
+	"strings"
+
+	"github.com/AndreiRubinJ/otusgo/hw02_fix_app/employee"
+	"github.com/AndreiRubinJ/otusgo/hw02_fix_app/printer"
+	"github.com/AndreiRubinJ/otusgo/hw02_fix_app/reader"
 )
 
-func init() {
-	var path string = "data.json"
+const fileName = "data.json"
 
-	fmt.Printf("Enter data file path: ")
-	fmt.Scanln(&path)
-
+func main() {
 	var err error
-	var staff []types.Employee
-
-	if len(path) == 0 {
-		path = "data.json"
-	} else {
+	var staff []employee.Employee
+	staff, err = reader.ReadJSON(getFilePath(fileName))
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
-
-	staff, err = reader.ReadJSON(path, -1)
-
-	fmt.Print(err)
-
 	printer.PrintStaff(staff)
+}
+
+func getFilePath(fileNameDefault string) string {
+	var path string
+	fmt.Printf("Enter data file path: ")
+	_, err := fmt.Scanln(&path)
+	if err != nil {
+		return getPathByDefault(fileNameDefault)
+	}
+	if strings.TrimSpace(path) == "" {
+		path = getPathByDefault(fileNameDefault)
+	}
+	return path
+}
+
+func getPathByDefault(fileName string) string {
+	_, filename, _, ok := runtime.Caller(0)
+	if !ok {
+		fmt.Println("Error get the path to the source file")
+	}
+	directory := filepath.Dir(filename)
+	return filepath.Join(directory, fileName)
 }
