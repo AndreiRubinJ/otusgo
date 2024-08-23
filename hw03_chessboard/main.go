@@ -14,10 +14,9 @@ var (
 )
 
 const (
-	spaceCount  = 1
-	spaceType   = "\t"
-	msgToPrompt = "Please enter board '%s' (from 2 to 25) \n"
-
+	spaceCount    = 1
+	spaceType     = "\t"
+	msgToPrompt   = "Please enter board '%s' (from 2 to 25) \n"
 	maxNumber     = 25
 	minNumber     = 2
 	maxRetryCount = 3
