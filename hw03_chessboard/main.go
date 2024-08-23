@@ -6,8 +6,8 @@ import (
 )
 
 const (
-	SPACE_COUNT = 1
-	SPACE_TYPE  = "\t"
+	spaceCount = 1
+	spaceType  = "\t"
 )
 
 func printBoard(height int, length int) {
@@ -63,7 +63,7 @@ func printFooter(_ int, length int) {
 }
 
 func printTub() {
-	fmt.Print(strings.Repeat(SPACE_TYPE, SPACE_COUNT))
+	fmt.Print(strings.Repeat(spaceType, spaceCount))
 }
 
 func main() {
