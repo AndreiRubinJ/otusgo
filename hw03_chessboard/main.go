@@ -14,10 +14,13 @@ var (
 )
 
 const (
-	spaceCount = 1
-	spaceType  = "\t"
-	msgHeight  = "Please enter board height (from 2 to 10)"
-	msgLength  = "Please enter board length (from 2 to 10)"
+	spaceCount    = 1
+	spaceType     = "\t"
+	msgHeight     = "Please enter board 'height' (from 2 to 25)"
+	msgLength     = "Please enter board 'length' (from 2 to 25)"
+	maxNumber     = 25
+	minNumber     = 2
+	maxRetryCount = 3
 )
 
 func init() {
@@ -25,18 +28,14 @@ func init() {
 }
 
 func printBoard(height int, length int) {
-	for i := 0; i <= height+1; i++ {
-		switch {
-		case i == 0:
-			printHeader(length)
-		case i <= height:
+	printHeader(length)
+	for i := 1; i <= height; i++ {
+		if i <= height {
 			printRowBoundary(length)
 			printRow(i, length)
-		default:
-			printFooter(height, length)
 		}
-		fmt.Println("")
 	}
+	printFooter(height, length)
 }
 
 func printHeader(length int) {
@@ -49,6 +48,7 @@ func printLetter(length int) {
 		letter := byte('A') + byte(j)
 		fmt.Printf("  %c ", letter)
 	}
+	fmt.Println("")
 }
 
 func printRowBoundary(length int) {
@@ -69,6 +69,7 @@ func printRow(rowNum int, length int) {
 	}
 	printTub()
 	fmt.Print(rowNum)
+	fmt.Println("")
 }
 
 func printFooter(_ int, length int) {
@@ -97,16 +98,16 @@ func readPromptValue(prompt string) string {
 
 func getBoardParam(param *int, msg string) {
 	var err error
-	count := 0
+	retryCount := 1
 	for {
 		value := readPromptValue(msg)
 		*param, err = convertParam(value)
-		if count > 2 {
-			fmt.Println("You put more then 3 time wrong value \n program exit")
+		if retryCount >= maxRetryCount {
+			fmt.Println("You put 3 time wrong value \n program exit")
 			os.Exit(0)
-		} else if err != nil || *param < 2 || *param > 10 {
+		} else if err != nil || *param < minNumber || *param > maxNumber {
 			fmt.Println("You putted wrong value")
-			count++
+			retryCount++
 			continue
 		}
 		break
