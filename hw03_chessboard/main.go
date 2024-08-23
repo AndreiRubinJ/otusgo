@@ -12,12 +12,13 @@ const (
 
 func printBoard(height int, length int) {
 	for i := 0; i <= height+1; i++ {
-		if i == 0 {
+		switch {
+		case i == 0:
 			printHeader(length)
-		} else if i <= height {
+		case i <= height:
 			printRowBoundary(length)
 			printRow(i, length)
-		} else {
+		default:
 			printFooter(height, length)
 		}
 		fmt.Println("")
