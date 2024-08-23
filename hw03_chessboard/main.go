@@ -61,8 +61,7 @@ func printRow(rowNum int, length int) {
 		}
 	}
 	printTub()
-	fmt.Print(rowNum)
-	fmt.Println("")
+	fmt.Println(rowNum)
 }
 
 func printFooter(_ int, length int) {
