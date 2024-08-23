@@ -14,10 +14,10 @@ var (
 )
 
 const (
-	spaceCount    = 1
-	spaceType     = "\t"
-	msgHeight     = "Please enter board 'height' (from 2 to 25)"
-	msgLength     = "Please enter board 'length' (from 2 to 25)"
+	spaceCount  = 1
+	spaceType   = "\t"
+	msgToPrompt = "Please enter board '%s' (from 2 to 25) \n"
+
 	maxNumber     = 25
 	minNumber     = 2
 	maxRetryCount = 3
@@ -89,18 +89,18 @@ func convertParam(param string) (i int, err error) {
 	return intParam, nil
 }
 
-func readPromptValue(prompt string) string {
-	fmt.Println(prompt)
+func readPromptValue(paramType string) string {
+	fmt.Printf(msgToPrompt, paramType)
 	reader := bufio.NewReader(os.Stdin)
 	value, _ := reader.ReadString('\n')
 	return strings.TrimSpace(value)
 }
 
-func getBoardParam(param *int, msg string) {
+func getBoardParam(param *int, paramType string) {
 	var err error
 	retryCount := 1
 	for {
-		value := readPromptValue(msg)
+		value := readPromptValue(paramType)
 		*param, err = convertParam(value)
 		if retryCount >= maxRetryCount {
 			fmt.Println("You put 3 time wrong value \n program exit")
@@ -115,8 +115,8 @@ func getBoardParam(param *int, msg string) {
 }
 
 func start() {
-	getBoardParam(&height, msgHeight)
-	getBoardParam(&length, msgLength)
+	getBoardParam(&height, "height")
+	getBoardParam(&length, "length")
 }
 
 func main() {
