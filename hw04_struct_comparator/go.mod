@@ -1,3 +1,3 @@
-module github.com/AndreiRubinJ/hw04_struct_comparator
+module github.com/AndreiRubinJ/otusgo/hw04_struct_comparator
 
 go 1.20

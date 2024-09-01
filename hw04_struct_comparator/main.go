@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/AndreiRubinJ/hw04_struct_comparator/pkg/book"
+	"github.com/AndreiRubinJ/otusgo/hw04_struct_comparator/pkg/book"
 )
 
 var comparatorNew = book.NewComparator()
