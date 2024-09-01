@@ -90,7 +90,7 @@ func readPromptValue(paramType string) string {
 
 func getBoardParam(param *int, paramType string) {
 	var err error
-	var retryCount = 1
+	retryCount := 1
 	for {
 		value := readPromptValue(paramType)
 		*param, err = convertParam(value)
@@ -109,7 +109,9 @@ func getBoardParam(param *int, paramType string) {
 func start() {
 	getBoardParam(&height, "height")
 	getBoardParam(&length, "length")
-	printBoard(height, length)
+	if height > 0 && length > 0 {
+		printBoard(height, length)
+	}
 }
 
 func main() {
