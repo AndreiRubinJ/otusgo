@@ -11,15 +11,19 @@ func checkIsNotTheWorld(symbol rune) bool {
 	return !unicode.IsLetter(symbol) || unicode.IsNumber(symbol)
 }
 
+func setStatisticWord(word string, wordCount *map[string]int) {
+	word = strings.ToLower(word)
+	if utf8.RuneCountInString(word) > 1 {
+		(*wordCount)[word]++
+	}
+}
+
 func CountWords(text string) map[string]int {
 	wordCount := make(map[string]int)
 	words := strings.FieldsFunc(text, checkIsNotTheWorld)
 
 	for _, word := range words {
-		word = strings.ToLower(word)
-		if utf8.RuneCountInString(word) > 1 {
-			wordCount[word]++
-		}
+		setStatisticWord(word, &wordCount)
 	}
 	return wordCount
 }
@@ -28,14 +32,11 @@ func CountWordsPlural(text string) map[string]int {
 	words := strings.Split(text, " ")
 	for _, word := range words {
 		for _, char := range word {
-			if !unicode.IsLetter(char) || unicode.IsNumber(char) {
+			if checkIsNotTheWorld(char) {
 				word = strings.ReplaceAll(word, string(char), "")
 			}
 		}
-		word = strings.ToLower(word)
-		if utf8.RuneCountInString(word) > 1 {
-			wordCount[word]++
-		}
+		setStatisticWord(word, &wordCount)
 	}
 	return wordCount
 }

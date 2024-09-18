@@ -10,6 +10,9 @@ import (
 
 // countWords принимает строку текста и возвращает мапу, содержащую количество каждого слова в тексте.
 
+// TestCountWordsPlural принимает строку текста и возвращает мапу, содержащую количество каждого слова в тексте. без
+// strings.FieldsFunc
+
 func TestCountWords(t *testing.T) {
 	tests := []struct {
 		input    string
