@@ -1,4 +1,4 @@
-module github.com/AndreiRubinJ/hw07_word_counter
+module github.com/AndreiRubinJ/otusgo/hw07_word_counter
 
 go 1.20
 
