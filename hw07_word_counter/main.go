@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/AndreiRubinJ/hw07_word_counter/internal/utils"
+	"github.com/AndreiRubinJ/otusgo/hw07_word_counter/internal/utils"
 )
 
 func main() {
