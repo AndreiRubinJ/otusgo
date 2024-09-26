@@ -14,7 +14,6 @@ func SearchValueFromSlice(arr []int, value int) int {
 		if arr[mid] < value {
 			start = mid + 1
 		} else {
-
 			end = mid - 1
 		}
 	}

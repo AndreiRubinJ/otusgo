@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-
 	arr := []int{0, 2, 3, 4, 10, 40, 60, 100, 250, 1000}
 	value := 55
 	result := utils.SearchValueFromSlice(arr, value)
@@ -16,5 +15,4 @@ func main() {
 	} else {
 		fmt.Println("Element not found in array")
 	}
-
 }
