@@ -18,10 +18,6 @@ type Book struct {
 	Rate   float64 `protobuf:"fixed64,6,opt,name=rate,proto3" json:"rate"`
 }
 
-type ProtoBookList struct {
-	Books []Book `protobuf:"bytes,1,rep,name=books,proto3" json:"books"`
-}
-
 func TestSerializeBooksProtoJSON(t *testing.T) {
 	tests := []struct {
 		input         []model.Book
