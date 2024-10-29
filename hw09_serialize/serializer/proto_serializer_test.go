@@ -9,15 +9,6 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-type Book struct {
-	ID     int     `protobuf:"varint,1,opt,name=id,proto3" json:"id"`
-	Title  string  `protobuf:"bytes,2,opt,name=title,proto3" json:"title"`
-	Author string  `protobuf:"bytes,3,opt,name=author,proto3" json:"author"`
-	Year   int     `protobuf:"varint,4,opt,name=year,proto3" json:"year"`
-	Size   int     `protobuf:"varint,5,opt,name=size,proto3" json:"size"`
-	Rate   float64 `protobuf:"fixed64,6,opt,name=rate,proto3" json:"rate"`
-}
-
 func TestSerializeBooksProtoJSON(t *testing.T) {
 	tests := []struct {
 		input         []model.Book
