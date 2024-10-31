@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	sensorDataChan := make(chan float64, 10)
-	processedDataChan := make(chan float64, 10)
+	sensorDataChan := make(chan float64, 1000)
+	processedDataChan := make(chan float64, 1000)
 
 	startTime := time.Now()
 	fmt.Printf("Start time: %s\n", startTime.Format(time.RFC3339))
@@ -25,7 +25,7 @@ func main() {
 }
 
 func simulateSensorRead(sensorDataChan chan float64, duration time.Duration) {
-	ticker := time.NewTicker(time.Second)
+	ticker := time.NewTicker(time.Millisecond)
 	defer ticker.Stop()
 
 	timeout := time.NewTimer(duration)
