@@ -20,7 +20,7 @@ func TestProcessSensorData(t *testing.T) {
 		close(sensorDataChan)
 	}()
 
-	expectedAverages := []float64{10.5}
+	expectedAverages := []float64{5.5, 15.5}
 
 	var receivedAverages []float64
 	for {

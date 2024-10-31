@@ -20,7 +20,6 @@ func main() {
 	for average := range processedDataChan {
 		fmt.Printf("Received average: %f\n", average)
 	}
-
 	endTime := time.Now()
 	fmt.Printf("End time: %s\n", endTime.Format(time.RFC3339))
 }
@@ -31,7 +30,6 @@ func simulateSensorRead(sensorDataChan chan float64, duration time.Duration) {
 
 	timeout := time.NewTimer(duration)
 	defer timeout.Stop()
-
 	for {
 		select {
 		case <-timeout.C:
@@ -54,45 +52,29 @@ func simulateSensorRead(sensorDataChan chan float64, duration time.Duration) {
 }
 
 func processSensorData(sensorDataChan, processedDataChan chan float64) {
-	ticker := time.NewTicker(time.Second)
-	defer ticker.Stop()
-
-	var dataBatch []float64
-
-	for {
-		select {
-		case data, ok := <-sensorDataChan:
-			if !ok {
-				select {
-				case processedDataChan <- calculateAverage(dataBatch):
-				default:
-					fmt.Println("processedDataChan is full, skipping this batch.")
-				}
-				close(processedDataChan)
-				return
+	dataBatch := make([]float64, 0, 10)
+	for data := range sensorDataChan {
+		dataBatch = append(dataBatch, data)
+		if len(dataBatch) == 10 {
+			var sum float64
+			for _, value := range dataBatch {
+				sum += value
 			}
-			dataBatch = append(dataBatch, data)
-		case <-ticker.C:
-			if len(dataBatch) > 0 {
-				select {
-				case processedDataChan <- calculateAverage(dataBatch):
-				default:
-					fmt.Println("processedDataChan is full, skipping this batch.")
-				}
-				dataBatch = []float64{}
-			}
+			average := sum / float64(len(dataBatch))
+			processedDataChan <- average
+			dataBatch = []float64{}
 		}
 	}
-}
-
-func calculateAverage(dataBatch []float64) float64 {
-	var sum float64
-	for _, value := range dataBatch {
-		sum += value
+	if len(dataBatch) > 0 {
+		var sum float64
+		for _, value := range dataBatch {
+			sum += value
+		}
+		average := sum / float64(len(dataBatch))
+		processedDataChan <- average
 	}
-	return sum / float64(len(dataBatch))
+	close(processedDataChan)
 }
-
 func randFloat64() (float64, error) {
 	n, err := rand.Int(rand.Reader, big.NewInt(100))
 	if err != nil {
