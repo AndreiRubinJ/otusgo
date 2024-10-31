@@ -8,18 +8,19 @@ import (
 )
 
 func main() {
-	sensorDataChan := make(chan float64)
-	processedDataChan := make(chan float64)
+	sensorDataChan := make(chan float64, 10)
+	processedDataChan := make(chan float64, 10)
 
 	startTime := time.Now()
 	fmt.Printf("Start time: %s\n", startTime.Format(time.RFC3339))
 
-	go simulateSensorRead(sensorDataChan, time.Minute*2)
+	go simulateSensorRead(sensorDataChan, time.Minute)
 	go processSensorData(sensorDataChan, processedDataChan)
 
 	for average := range processedDataChan {
 		fmt.Printf("Received average: %f\n", average)
 	}
+
 	endTime := time.Now()
 	fmt.Printf("End time: %s\n", endTime.Format(time.RFC3339))
 }
@@ -30,6 +31,7 @@ func simulateSensorRead(sensorDataChan chan float64, duration time.Duration) {
 
 	timeout := time.NewTimer(duration)
 	defer timeout.Stop()
+
 	for {
 		select {
 		case <-timeout.C:
@@ -42,35 +44,55 @@ func simulateSensorRead(sensorDataChan chan float64, duration time.Duration) {
 				close(sensorDataChan)
 				return
 			}
-			sensorDataChan <- value * 100
+			select {
+			case sensorDataChan <- value * 100:
+			default:
+				fmt.Println("sensorDataChan is full, skipping this value.")
+			}
 		}
 	}
 }
 
 func processSensorData(sensorDataChan, processedDataChan chan float64) {
-	dataBatch := make([]float64, 0, 10)
-	for data := range sensorDataChan {
-		dataBatch = append(dataBatch, data)
-		if len(dataBatch) == 10 {
-			var sum float64
-			for _, value := range dataBatch {
-				sum += value
+	ticker := time.NewTicker(time.Second)
+	defer ticker.Stop()
+
+	var dataBatch []float64
+
+	for {
+		select {
+		case data, ok := <-sensorDataChan:
+			if !ok {
+				select {
+				case processedDataChan <- calculateAverage(dataBatch):
+				default:
+					fmt.Println("processedDataChan is full, skipping this batch.")
+				}
+				close(processedDataChan)
+				return
 			}
-			average := sum / float64(len(dataBatch))
-			processedDataChan <- average
-			dataBatch = []float64{}
+			dataBatch = append(dataBatch, data)
+		case <-ticker.C:
+			if len(dataBatch) > 0 {
+				select {
+				case processedDataChan <- calculateAverage(dataBatch):
+				default:
+					fmt.Println("processedDataChan is full, skipping this batch.")
+				}
+				dataBatch = []float64{}
+			}
 		}
 	}
-	if len(dataBatch) > 0 {
-		var sum float64
-		for _, value := range dataBatch {
-			sum += value
-		}
-		average := sum / float64(len(dataBatch))
-		processedDataChan <- average
-	}
-	close(processedDataChan)
 }
+
+func calculateAverage(dataBatch []float64) float64 {
+	var sum float64
+	for _, value := range dataBatch {
+		sum += value
+	}
+	return sum / float64(len(dataBatch))
+}
+
 func randFloat64() (float64, error) {
 	n, err := rand.Int(rand.Reader, big.NewInt(100))
 	if err != nil {

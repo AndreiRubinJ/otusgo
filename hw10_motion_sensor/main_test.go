@@ -21,8 +21,7 @@ func TestProcessSensorData(t *testing.T) {
 		close(sensorDataChan)
 	}()
 
-	// Ожидаемые средние значения: (1+2+...+10)/10 и (11+12+...+20)/10
-	expectedAverages := []float64{5.5, 15.5}
+	expectedAverages := []float64{10.5}
 
 	var receivedAverages []float64
 	for {
@@ -33,7 +32,7 @@ func TestProcessSensorData(t *testing.T) {
 				return
 			}
 			receivedAverages = append(receivedAverages, avg)
-		case <-time.After(2 * time.Second):
+		case <-time.After(time.Second):
 			t.Fatal("Timeout waiting for processed data")
 		}
 	}
