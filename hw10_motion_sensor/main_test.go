@@ -13,7 +13,6 @@ func TestProcessSensorData(t *testing.T) {
 
 	go processSensorData(sensorDataChan, processedDataChan)
 
-	// Отправляем 20 значений в канал
 	go func() {
 		for i := 1; i <= 20; i++ {
 			sensorDataChan <- float64(i)
