@@ -14,9 +14,8 @@ func main() {
 	startTime := time.Now()
 	fmt.Printf("Start time: %s\n", startTime.Format(time.RFC3339))
 
-	go simulateSensorRead(sensorDataChan, time.Minute)
-	go processSensorData(sensorDataChan, processedDataChan)
 
+	go simulateSensorRead(sensorDataChan, time.Minute*2)
 	for average := range processedDataChan {
 		fmt.Printf("Received average: %f\n", average)
 	}
@@ -25,7 +24,8 @@ func main() {
 }
 
 func simulateSensorRead(sensorDataChan chan float64, duration time.Duration) {
-	ticker := time.NewTicker(time.Millisecond)
+
+	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
 
 	timeout := time.NewTimer(duration)
@@ -62,7 +62,7 @@ func processSensorData(sensorDataChan, processedDataChan chan float64) {
 			}
 			average := sum / float64(len(dataBatch))
 			processedDataChan <- average
-			dataBatch = []float64{}
+			dataBatch = dataBatch[:0]
 		}
 	}
 	if len(dataBatch) > 0 {
