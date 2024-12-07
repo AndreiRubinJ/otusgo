@@ -8,15 +8,14 @@ import (
 )
 
 func main() {
-	sensorDataChan := make(chan float64)
-	processedDataChan := make(chan float64)
+	sensorDataChan := make(chan float64, 1000)
+	processedDataChan := make(chan float64, 1000)
 
 	startTime := time.Now()
 	fmt.Printf("Start time: %s\n", startTime.Format(time.RFC3339))
 
-	go simulateSensorRead(sensorDataChan, time.Minute*2)
-	go processSensorData(sensorDataChan, processedDataChan)
 
+	go simulateSensorRead(sensorDataChan, time.Minute*2)
 	for average := range processedDataChan {
 		fmt.Printf("Received average: %f\n", average)
 	}
@@ -25,6 +24,7 @@ func main() {
 }
 
 func simulateSensorRead(sensorDataChan chan float64, duration time.Duration) {
+
 	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
 
@@ -42,7 +42,11 @@ func simulateSensorRead(sensorDataChan chan float64, duration time.Duration) {
 				close(sensorDataChan)
 				return
 			}
-			sensorDataChan <- value * 100
+			select {
+			case sensorDataChan <- value * 100:
+			default:
+				fmt.Println("sensorDataChan is full, skipping this value.")
+			}
 		}
 	}
 }
