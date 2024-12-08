@@ -59,8 +59,8 @@ func GenerateRandomLogEntry() (entry.LogEntry, error) {
 	}, nil
 }
 
-func getSecureRandomIndex(max int64) (int, error) {
-	n, err := rand.Int(rand.Reader, big.NewInt(max))
+func getSecureRandomIndex(maxIndex int64) (int, error) {
+	n, err := rand.Int(rand.Reader, big.NewInt(maxIndex))
 	if err != nil {
 		return 0, err
 	}
