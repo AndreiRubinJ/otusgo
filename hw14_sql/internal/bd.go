@@ -2,6 +2,6 @@ package bd
 
 import "fmt"
 
-func SetSql() {
+func SetSQL() {
 	fmt.Println("sql:")
 }

@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	bd.SetSql()
+	bd.SetSQL()
 }
