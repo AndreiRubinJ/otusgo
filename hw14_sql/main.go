@@ -1,4 +1,4 @@
-package hw14_sql
+package main
 
 import (
 	"github.com/AndreiRubinJ/otusgo/hw14_sql/internal"
